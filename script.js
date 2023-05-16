@@ -2,6 +2,7 @@
 
 console.log("program start");
 const roverEmoji = '\u{1F6F8}';
+const rockEmoji = '\u{26F0}';
 const heightInputField = document.querySelector("#height-input");
 const widthInputField = document.querySelector("#width-input");
 const startButton = document.querySelector("#start-button");
@@ -9,23 +10,38 @@ const fieldContainer = document.querySelector("#field-container");
 let rowNumber;
 let columnNumber;
 let roverCoordinates;
+let rocksCoordinates = [];
 
-const randomStart = () => {
+const randomCoordinates = () => {
     const randomRow = getRandomNumber(rowNumber);
     const randomColumn = getRandomNumber(columnNumber);
     return `${randomRow}-${randomColumn}`;
 }
 
 const getRandomNumber = (max) => {
-    return Math.floor(Math.random() * (max - 1 + 1)) + 1;
+    return Math.floor(Math.random() * (max)) + 1;
 }
 
-const placeRover = (coordinate) => {
+const placeItem = (coordinate, itemEmoji) => {
     const position = document.getElementById(coordinate);
-    position.innerText = roverEmoji;
+    position.innerText = itemEmoji;
+}
+
+const placeRocks = () => {
+    for (let j = 1; j <= columnNumber; j++) {
+        newCoordinate = randomCoordinates();
+        while (rocksCoordinates.includes(newCoordinate) || newCoordinate === roverCoordinates) {
+            newCoordinate = randomCoordinates();
+        }
+        rocksCoordinates.push(newCoordinate);
+    }
+    rocksCoordinates.forEach(coordinate => {    
+        placeItem(coordinate, rockEmoji) 
+    });
 }
 
 const createField = () => {
+    rocksCoordinates = [];
     fieldContainer.style.display = "block";
     fieldContainer.replaceChildren();
     console.log("start button pushed");
@@ -44,59 +60,83 @@ const createField = () => {
         }
         fieldContainer.appendChild(row);
     }
-    roverCoordinates = randomStart();
-    placeRover(roverCoordinates);
+    roverCoordinates = randomCoordinates();
+    placeItem(roverCoordinates, roverEmoji);
+    placeRocks();
 }
 
 const moveRover = (direction) => {
-    const parts = roverCoordinates.split("-");
-    if (direction === "ArrowRight") {
-        if (Number(parts[1]) === columnNumber) {
-            console.log("sei al limite destro!");
-        }
-        else{
-            const newPosition = parts[0] + "-" + String(Number(parts[1])+1);
-            document.getElementById(roverCoordinates).innerText = "";
-            roverCoordinates = newPosition;
-            placeRover(roverCoordinates);
-        }
+    const directions = {
+      ArrowRight: [0, 1],
+      ArrowLeft: [0, -1],
+      ArrowUp: [-1, 0],
+      ArrowDown: [1, 0]
+    };
+  
+    const [rowChange, colChange] = directions[direction];
+    const [currentRow, currentCol] = roverCoordinates.split("-");
+  
+    const newRow = Number(currentRow) + rowChange;
+    const newCol = Number(currentCol) + colChange;
+  
+    if (newRow < 1 || newRow > rowNumber || newCol < 1 || newCol > columnNumber) {
+      return;
     }
-    else if (direction === "ArrowLeft") {
-        if (Number(parts[1]) === 1) {
-            console.log("sei al limite sinistro!");
-        }
-        else{
-            const newPosition = parts[0] + "-" + String(Number(parts[1])-1);
-            document.getElementById(roverCoordinates).innerText = "";
-            roverCoordinates = newPosition;
-            placeRover(roverCoordinates);
-        }
-    }
-    else if (direction === "ArrowUp") {
-        if (Number(parts[0]) === 1) {
-            console.log("sei al limite superiore!");
-        }
-        else{
-            const newPosition = String(Number(parts[0])-1) + "-" + parts[1];
-            console.log(newPosition);
-            document.getElementById(roverCoordinates).innerText = "";
-            roverCoordinates = newPosition;
-            placeRover(roverCoordinates);
-        }
-    }
-    else if (direction === "ArrowDown") {
-        if (Number(parts[0]) === rowNumber) {
-            console.log("sei al limite inferiore!");
-        }
-        else{
-            const newPosition = String(Number(parts[0])+1) + "-" + parts[1];
-            console.log(newPosition);
-            document.getElementById(roverCoordinates).innerText = "";
-            roverCoordinates = newPosition;
-            placeRover(roverCoordinates);
-        }
-    }
-}
+  
+    const newPosition = `${newRow}-${newCol}`;
+  
+    document.getElementById(roverCoordinates).innerText = "";
+    roverCoordinates = newPosition;
+    placeItem(roverCoordinates, roverEmoji);
+};
 
 startButton.addEventListener("click", createField);
 document.addEventListener("keydown", (event) => moveRover(event.key));
+
+// const moveRover = (direction) => {
+//     const parts = roverCoordinates.split("-");
+//     if (direction === "ArrowRight") {
+//         if (Number(parts[1]) === columnNumber) {
+//             return; //console.log("sei al limite destro!");
+//         }
+//         else{
+//             const newPosition = parts[0] + "-" + String(Number(parts[1])+1);
+//             document.getElementById(roverCoordinates).innerText = "";
+//             roverCoordinates = newPosition;
+//             placeItem(roverCoordinates, roverEmoji);
+//         }
+//     }
+//     else if (direction === "ArrowLeft") {
+//         if (Number(parts[1]) === 1) {
+//             return; //console.log("sei al limite sinistro!");
+//         }
+//         else{
+//             const newPosition = parts[0] + "-" + String(Number(parts[1])-1);
+//             document.getElementById(roverCoordinates).innerText = "";
+//             roverCoordinates = newPosition;
+//             placeItem(roverCoordinates, roverEmoji);
+//         }
+//     }
+//     else if (direction === "ArrowUp") {
+//         if (Number(parts[0]) === 1) {
+//             return; //console.log("sei al limite superiore!");
+//         }
+//         else{
+//             const newPosition = String(Number(parts[0])-1) + "-" + parts[1];
+//             document.getElementById(roverCoordinates).innerText = "";
+//             roverCoordinates = newPosition;
+//             placeItem(roverCoordinates, roverEmoji);
+//         }
+//     }
+//     else if (direction === "ArrowDown") {
+//         if (Number(parts[0]) === rowNumber) {
+//             return; //console.log("sei al limite inferiore!");
+//         }
+//         else{
+//             const newPosition = String(Number(parts[0])+1) + "-" + parts[1];
+//             document.getElementById(roverCoordinates).innerText = "";
+//             roverCoordinates = newPosition;
+//             placeItem(roverCoordinates, roverEmoji);
+//         }
+//     }
+// }
