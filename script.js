@@ -1,6 +1,14 @@
 //Script Mars Rover
 
 console.log("program start");
+const roverEmoji = '\u{1F6F8}';
+const heightInputField = document.querySelector("#height-input");
+const widthInputField = document.querySelector("#width-input");
+const startButton = document.querySelector("#start-button");
+const fieldContainer = document.querySelector("#field-container");
+let rowNumber;
+let columnNumber;
+let roverCoordinates;
 
 const randomStart = () => {
     const randomRow = getRandomNumber(rowNumber);
@@ -11,18 +19,6 @@ const randomStart = () => {
 const getRandomNumber = (max) => {
     return Math.floor(Math.random() * (max - 1 + 1)) + 1;
 }
-
-
-const roverEmoji = '\u{1F6F8}';
-const heightInputField = document.querySelector("#height-input");
-const widthInputField = document.querySelector("#width-input");
-const startButton = document.querySelector("#start-button");
-const fieldContainer = document.querySelector("#field-container");
-let rowNumber;
-let columnNumber;
-let roverCoordinates = "1-2";
-
-console.log(randomStart());
 
 const placeRover = (coordinate) => {
     const position = document.getElementById(coordinate);
@@ -48,6 +44,7 @@ const createField = () => {
         }
         fieldContainer.appendChild(row);
     }
+    roverCoordinates = randomStart();
     placeRover(roverCoordinates);
 }
 
