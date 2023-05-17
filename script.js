@@ -85,38 +85,30 @@ const createField = () => {
 }
 
 const moveRover = (direction) => {
-    const directions = {
-      ArrowRight: [0, 1],
-      ArrowLeft: [0, -1],
-      ArrowUp: [-1, 0],
-      ArrowDown: [1, 0]
-    };
+    const parts = roverCoordinates.split("-");
+    const currentRow = Number(parts[0]);
+    const currentCol = Number(parts[1]);
+    let newRow = currentRow;
+    let newCol = currentCol;
   
-    const [rowChange, colChange] = directions[direction];
-    const [currentRow, currentCol] = roverCoordinates.split("-");
-
-    let newRow = Number(currentRow) + rowChange;
-    let newCol = Number(currentCol) + colChange;
-
-
-    switch (true) {
-        case newRow < 1:
-            newRow = rowNumber;
-            break;
-        case newRow > rowNumber:
-            newRow = 1;
-            break;
-        case newCol < 1:
-            newCol = columnNumber;
-            break;
-        case newCol > columnNumber:
-            newCol = 1;
-            break;
-        default:
-            break;
+    switch (direction) {
+      case "ArrowRight":
+        newCol = currentCol === columnNumber ? 1 : currentCol + 1;
+        break;
+      case "ArrowLeft":
+        newCol = currentCol === 1 ? columnNumber : currentCol - 1;
+        break;
+      case "ArrowUp":
+        newRow = currentRow === 1 ? rowNumber : currentRow - 1;
+        break;
+      case "ArrowDown":
+        newRow = currentRow === rowNumber ? 1 : currentRow + 1;
+        break;
+      default:
+        return;
     }
- 
-    const newPosition = `${newRow}-${newCol}`;
+  
+    const newPosition = newRow + "-" + newCol;
 
     if (rocksCoordinates.includes(newPosition)) {
         return;
@@ -127,11 +119,12 @@ const moveRover = (direction) => {
         gatheredEnergy++;
         console.log(`so far you gathered ${gatheredEnergy} energy units`);
     }
-
+    
     document.getElementById(roverCoordinates).innerText = "";
     roverCoordinates = newPosition;
     placeItem(roverCoordinates, roverEmoji);
-};
+  };
+  
 
 startButton.addEventListener("click", createField);
 document.addEventListener("keydown", (event) => moveRover(event.key));
