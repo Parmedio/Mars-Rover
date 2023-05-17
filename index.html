@@ -12,19 +12,43 @@
             margin-right: 20%;
             min-width: 380px;
         }
+
         #field-container{
             display: none;
             border-radius: 2px;
             border: 1px solid rgb(207, 207, 207);
         }
+
         #setting{
             display: flex;
             align-items: center;
             justify-content: center;
         }
+        
         #message{
             min-width: 300px;
         }
+        
+        #player-score{
+            display: none;
+            align-items: center;
+            justify-content: start;
+        }
+        
+        #complete-game-message{
+            display: none;
+            text-align: center;
+            flex-grow: 1;
+            color: rgb(0, 148, 62);
+            background: radial-gradient(circle, rgba(0,255,158,1) 0%, rgba(255,255,255,1) 60%);
+        }
+        
+        .footer{
+            margin: 0px;
+            margin-right: 10px;
+            margin-top: 16px;
+        }
+
         .col{
             width: 100%; /*height: 10vh*/
             aspect-ratio: 1/1;
@@ -51,6 +75,11 @@
         </div>
     </div>
     <div class="container text-center" id="field-container"></div>
+    <div id="player-score">
+        <p class="footer">. . . so far you gathered:</p>
+        <p class="footer" id="energy-dashbord"></p>
+        <h6 class="footer" id="complete-game-message">That's impressive! You gathered all energy units!</h6>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>

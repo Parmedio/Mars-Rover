@@ -8,6 +8,9 @@ const heightInputField = document.querySelector("#height-input");
 const widthInputField = document.querySelector("#width-input");
 const startButton = document.querySelector("#start-button");
 const fieldContainer = document.querySelector("#field-container");
+const scoreSection = document.querySelector("#player-score");
+const energyDashbord = document.querySelector("#energy-dashbord");
+const completeGameMessage = document.querySelector("#complete-game-message");
 let rowNumber;
 let columnNumber;
 let roverCoordinates;
@@ -61,6 +64,7 @@ const clearAll = () => {
     energyCoordinates = [];
     gatheredEnergy = 0;
     fieldContainer.style.display = "block";
+    scoreSection.style.display = "flex";
     fieldContainer.replaceChildren();
 }
 
@@ -139,13 +143,18 @@ const moveRover = (direction) => {
     if (energyCoordinates.includes(newPosition)) {
         energyCoordinates.splice(energyCoordinates.indexOf(newPosition), 1);
         gatheredEnergy++;
+        energyDashbord.innerText += "⚡"
         console.log(`so far you gathered ${gatheredEnergy} energy units`);
+    }
+
+    if (energyCoordinates.length === 0 && energyDashbord.innerText !== ""){
+        completeGameMessage.style.display = "block";
     }
     
     document.getElementById(roverCoordinates).innerText = "";
     roverCoordinates = newPosition;
     placeItem(roverCoordinates, roverEmoji);
-  };
+};
   
 
 startButton.addEventListener("click", createField);
