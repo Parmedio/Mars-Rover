@@ -67,8 +67,27 @@ const clearAll = () => {
 const createField = () => {
     clearAll();
     
-    rowNumber = isNaN(parseInt(heightInputField.value)) ? 6 : parseInt(heightInputField.value);
-    columnNumber = isNaN(parseInt(widthInputField.value)) ? 10 : parseInt(widthInputField.value);
+    rowNumber = 6;
+    columnNumber = 12;
+
+    const parsedHeight = parseInt(heightInputField.value);
+    const parsedWidth = parseInt(widthInputField.value);
+
+    if (!isNaN(parsedHeight)) {
+        if (parsedHeight >= 3) {
+            rowNumber = parsedHeight;
+        } else {
+            rowNumber = 3;
+        }
+    }
+
+    if (!isNaN(parsedWidth)) {
+        if (parsedWidth >= 6) {
+            columnNumber = parsedWidth;
+        } else {
+            columnNumber = 6;
+        }
+    }
     
     for (let i = 1; i <= rowNumber; i++) {
         const row = document.createElement("div");
