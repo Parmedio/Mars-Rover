@@ -94,14 +94,28 @@ const moveRover = (direction) => {
   
     const [rowChange, colChange] = directions[direction];
     const [currentRow, currentCol] = roverCoordinates.split("-");
-  
-    const newRow = Number(currentRow) + rowChange;
-    const newCol = Number(currentCol) + colChange;
-  
-    if (newRow < 1 || newRow > rowNumber || newCol < 1 || newCol > columnNumber) {
-      return;
+
+    let newRow = Number(currentRow) + rowChange;
+    let newCol = Number(currentCol) + colChange;
+
+
+    switch (true) {
+        case newRow < 1:
+            newRow = rowNumber;
+            break;
+        case newRow > rowNumber:
+            newRow = 1;
+            break;
+        case newCol < 1:
+            newCol = columnNumber;
+            break;
+        case newCol > columnNumber:
+            newCol = 1;
+            break;
+        default:
+            break;
     }
-  
+ 
     const newPosition = `${newRow}-${newCol}`;
 
     if (rocksCoordinates.includes(newPosition)) {
@@ -111,7 +125,7 @@ const moveRover = (direction) => {
     if (energyCoordinates.includes(newPosition)) {
         energyCoordinates.splice(energyCoordinates.indexOf(newPosition), 1);
         gatheredEnergy++;
-        console.log(`hai raccolto ${gatheredEnergy} unità di energia`);
+        console.log(`so far you gathered ${gatheredEnergy} energy units`);
     }
 
     document.getElementById(roverCoordinates).innerText = "";
