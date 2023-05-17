@@ -21,8 +21,8 @@ const randomCoordinates = () => {
     return `${randomRow}-${randomColumn}`;
 }
 
-const getRandomNumber = (max) => {
-    return Math.floor(Math.random() * (max)) + 1;
+const getRandomNumber = (num) => {
+    return Math.floor(Math.random() * (num)) + 1;
 }
 
 const placeItem = (coordinate, itemEmoji) => {
@@ -56,16 +56,19 @@ const placeEnergy = () => {
     });
 }
 
-const createField = () => {
+const clearAll = () => {
     rocksCoordinates = [];
     energyCoordinates = [];
     gatheredEnergy = 0;
     fieldContainer.style.display = "block";
     fieldContainer.replaceChildren();
-    console.log("start button pushed");
+}
+
+const createField = () => {
+    clearAll();
     
-    rowNumber = isNaN(parseInt(heightInputField.value)) ? 5 : parseInt(heightInputField.value);
-    columnNumber = isNaN(parseInt(widthInputField.value)) ? 8 : parseInt(widthInputField.value);
+    rowNumber = isNaN(parseInt(heightInputField.value)) ? 6 : parseInt(heightInputField.value);
+    columnNumber = isNaN(parseInt(widthInputField.value)) ? 10 : parseInt(widthInputField.value);
     
     for (let i = 1; i <= rowNumber; i++) {
         const row = document.createElement("div");
