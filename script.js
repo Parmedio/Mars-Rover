@@ -34,7 +34,7 @@ const placeItem = (coordinate, itemEmoji) => {
 }
 
 const placeRocks = () => {
-    for (let r = 1; r <= columnNumber; r++) {
+    for (let r = 1; r <= (columnNumber * rowNumber)/4; r++) {
         newCoordinate = randomCoordinates();
         while (rocksCoordinates.includes(newCoordinate) || newCoordinate === roverCoordinates) {
             newCoordinate = randomCoordinates();
@@ -47,7 +47,7 @@ const placeRocks = () => {
 }
 
 const placeEnergy = () => {
-    for (let c = 1; c <= rowNumber; c++) {
+    for (let c = 1; c <= (columnNumber * rowNumber)/8; c++) {
         newCoordinate = randomCoordinates();
         while (rocksCoordinates.includes(newCoordinate) || energyCoordinates.includes(newCoordinate) || newCoordinate === roverCoordinates) {
             newCoordinate = randomCoordinates();
@@ -63,10 +63,10 @@ const clearAll = () => {
     rocksCoordinates = [];
     energyCoordinates = [];
     gatheredEnergy = 0;
+    completeGameMessage.style.display = "none";
     fieldContainer.style.display = "block";
     scoreSection.style.display = "flex";
     energyDashbord.innerText = "";
-    completeGameMessage.style.display = "none";
     fieldContainer.replaceChildren();
 }
 
@@ -145,12 +145,11 @@ const moveRover = (direction) => {
     if (energyCoordinates.includes(newPosition)) {
         energyCoordinates.splice(energyCoordinates.indexOf(newPosition), 1);
         gatheredEnergy++;
-        energyDashbord.innerText += "⚡";
-        console.log(`so far you gathered ${gatheredEnergy} energy units`);
-    }
+        energyDashbord.innerText += energyEmoji;
 
-    if (energyCoordinates.length === 0 && energyDashbord.innerText !== ""){
-        completeGameMessage.style.display = "block";
+        if (energyCoordinates.length === 0 && energyDashbord.innerText !== ""){
+            completeGameMessage.style.display = "block";
+        }
     }
     
     document.getElementById(roverCoordinates).innerText = "";
