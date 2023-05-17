@@ -65,6 +65,8 @@ const clearAll = () => {
     gatheredEnergy = 0;
     fieldContainer.style.display = "block";
     scoreSection.style.display = "flex";
+    energyDashbord.innerText = "";
+    completeGameMessage.style.display = "none";
     fieldContainer.replaceChildren();
 }
 
@@ -143,7 +145,7 @@ const moveRover = (direction) => {
     if (energyCoordinates.includes(newPosition)) {
         energyCoordinates.splice(energyCoordinates.indexOf(newPosition), 1);
         gatheredEnergy++;
-        energyDashbord.innerText += "⚡"
+        energyDashbord.innerText += "⚡";
         console.log(`so far you gathered ${gatheredEnergy} energy units`);
     }
 
@@ -156,6 +158,5 @@ const moveRover = (direction) => {
     placeItem(roverCoordinates, roverEmoji);
 };
   
-
 startButton.addEventListener("click", createField);
 document.addEventListener("keydown", (event) => moveRover(event.key));
