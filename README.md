@@ -1,5 +1,5 @@
 # Mars-Rover
-academy css exercise
+academy css ad javascript exercise
 
 This program create a field with a rover, some mountains and some energy units.
 Move the rover with arrow keys, collect the energy units by going on them and moving arounf the obstacles.
